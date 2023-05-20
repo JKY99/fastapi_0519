@@ -1,14 +1,16 @@
-from pymongo import MongoClient
+from motor.motor_asyncio import AsyncIOMotorClient
 from dotenv import load_dotenv, find_dotenv
 import os
+import asyncio
 
 load_dotenv(find_dotenv())
 
 password = os.environ.get("MONGODB_PWD")
 
-uri = f"mongodb+srv://admin:{1234}@recommend.wg2l4em.mongodb.net/?retryWrites=true&w=majority"
+uri = f"mongodb+srv://admin:{password}@recommend.wg2l4em.mongodb.net/?retryWrites=true&w=majority"
 
-client = MongoClient(uri)
+client = AsyncIOMotorClient(uri)
+
 
 # 데이터베이스를 선택합니다.
 db = client.BeerRecommendationsDB
@@ -49,14 +51,24 @@ sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
 #         collection.insert_one(user)
 #######################################
 
+# async def find_all_beers():
+#     beers = db.beers
+#     beer_list = await list(beers.find())
+#     return beer_list
 
 async def find_all_beers():
-    beers = db.beers
-    beer_list = await list(beers.find())
+    beers = db.Beers
+    beer_list = await beers.find().to_list(length=1000)
+    # if beer_list:  # beer_list가 비어있지 않으면, 즉 beers가 존재하면
+    #     print(f"Beers 컬렉션은 존재하며, 총 {len(beer_list)}개의 맥주 정보가 있습니다.")
+    # else:
+    #     print("Beers 컬렉션은 존재하지 않거나, 맥주 정보가 없습니다.")
     return beer_list
+# asyncio.run(find_all_beers())
+
 
 async def find_beer(beer_name):
-    beers = db.beers
+    beers = db.Beers
     beer = await beers.find_one({'beer_name': beer_name})
     return beer
 
@@ -92,4 +104,3 @@ async def add_favorite_beer(user_id: str, beer_id: str) -> dict:
     
     # 업데이트된 문서를 반환합니다.
     return await user_favorites.find_one({'user_id': user_id})
-
