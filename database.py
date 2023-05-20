@@ -25,9 +25,9 @@ async def insert_beer(beer):
 
 
 #######################################
-import json,sys,io
-sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
-sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+# import json,sys,io
+# sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+# sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
 #######################################
 # # Beers 컬렉션 선택
 # collection = db.Beers
@@ -59,10 +59,6 @@ sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
 async def find_all_beers():
     beers = db.Beers
     beer_list = await beers.find().to_list(length=1000)
-    # if beer_list:  # beer_list가 비어있지 않으면, 즉 beers가 존재하면
-    #     print(f"Beers 컬렉션은 존재하며, 총 {len(beer_list)}개의 맥주 정보가 있습니다.")
-    # else:
-    #     print("Beers 컬렉션은 존재하지 않거나, 맥주 정보가 없습니다.")
     return beer_list
 # asyncio.run(find_all_beers())
 

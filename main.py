@@ -1,3 +1,4 @@
+import asyncio
 from fastapi import FastAPI, Query, Path
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse, FileResponse
@@ -13,7 +14,7 @@ app.mount("/", StaticFiles(directory="public", html = True), name="static")
 # 모든 맥주 정보를 조회합니다.  ex) /beers/all
 @app.get("/beers/all", response_model=List[Beer])
 async def get_all_beers():
-    result = await find_all_beers()
+    result = asyncio.run(find_all_beers())
     return result
 
 # 맥주 정보를 조회합니다.   ex) /beers?beer_name=cass
