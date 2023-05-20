@@ -62,7 +62,6 @@ async def find_all_beers():
     return beer_list
 # asyncio.run(find_all_beers())
 
-
 async def find_beer(beer_name):
     beers = db.Beers
     beer = await beers.find_one({'beer_name': beer_name})
