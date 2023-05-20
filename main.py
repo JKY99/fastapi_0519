@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse, FileResponse
 from pydantic import BaseModel, Field, EmailStr
 from typing import List, Optional
 from datetime import datetime
-from models import Beer, SearchResult, UserFavorites
+from models import Beer, UserFavorites
 from database import find_all_beers, find_beer, find_user_favorites
 
 app = FastAPI()
