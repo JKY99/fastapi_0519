@@ -60,7 +60,6 @@ async def find_all_beers():
     beers = db.Beers
     beer_list = await beers.find().to_list(length=1000)
     return beer_list
-# asyncio.run(find_all_beers())
 
 async def find_beer(beer_name):
     beers = db.Beers
