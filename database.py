@@ -63,7 +63,7 @@ async def find_all_beers():
 
 async def find_beer(beer_name):
     beers = db.Beers
-    beer = await beers.find_one({'beer_name': beer_name})
+    beer = await beers.find_one({'name': beer_name})
     return beer
 
 async def find_user_favorites(user_id: str) -> dict:

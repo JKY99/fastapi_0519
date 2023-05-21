@@ -7,51 +7,19 @@ from typing import List, Optional
 from datetime import datetime
 from models import Beer, UserFavorites
 from database import find_all_beers, find_beer, find_user_favorites
-import sys,io
-sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
-sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
 
 app = FastAPI()
-app.mount("/", StaticFiles(directory="public", html = True), name="static")
+# app.mount("/", StaticFiles(directory="public", html = True), name="static")\
+
+@app.get("/hello")
+def hello():
+    return {"Hello": "World"}
 
 # 모든 맥주 정보를 조회합니다.  ex) /beers/all
-
-@app.get("/beers/all")
+@app.get("/beers/all", response_model=List[Beer])
 async def get_all_beers():
-    # from motor.motor_asyncio import AsyncIOMotorClient
-    # import os
-    # password = os.environ.get("MONGODB_PWD")
-    # uri = f"mongodb+srv://admin:{password}@recommend.wg2l4em.mongodb.net/?retryWrites=true&w=majority"
-    # db = AsyncIOMotorClient(uri).BeerRecommendationsDB
-    # beers = db.Beers
-    # beer_list = await beers.find().to_list(length=1000)
-    return "hello world"
-
-
-# @app.get("/beers/all", response_model=List[Beer])
-# async def get_all_beers():
-#     result = await find_all_beers()
-#     return result
-
-# 모든 맥주 정보를 조회합니다.  ex) /beers/all
-
-# @app.get("/beers/all", response_model=List[Beer])
-# async def get_all_beers():
-#     from motor.motor_asyncio import AsyncIOMotorClient
-#     import os
-#     password = os.environ.get("MONGODB_PWD")
-#     uri = f"mongodb+srv://admin:{password}@recommend.wg2l4em.mongodb.net/?retryWrites=true&w=majority"
-#     client = AsyncIOMotorClient(uri)
-#     # 데이터베이스를 선택합니다.
-#     db = client.BeerRecommendationsDB
-#     beers = db.Beers
-#     beer_list = await beers.find().to_list(length=1000)
-#     return beer_list
-
-# import asyncio
-# beer_list = asyncio.run(get_all_beers())
-# print(beer_list)
-
+    result = await find_all_beers()
+    return result
 
 # 맥주 정보를 조회합니다.   ex) /beers?beer_name=cass
 @app.get("/beers/", response_model=Beer)
